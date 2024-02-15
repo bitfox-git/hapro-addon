@@ -1,0 +1,28 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start the example service
+# s6-overlay docs: https://github.com/just-containers/s6-overlay
+# ==============================================================================
+
+# Add your code here
+
+# Declare variables
+declare token
+declare remote_addr
+declare local_addr
+
+# Get the config from the user config options.
+token=$(bashio::config 'token')
+remote_addr=$(bashio::config 'remote_addr')
+local_addr=$(bashio::config 'local_addr')
+
+cat > /usr/bin/client.toml << EOF
+[client]
+remote_addr = "$remote_addr"
+
+[client.services.homeassistant]
+token = "$token"
+local_addr = "$local_addr"
+EOF
+
+exec /usr/bin/rathole -c /usr/bin/client.toml

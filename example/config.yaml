@@ -1,0 +1,27 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: AMS ADDON
+version: "1.2.0"
+slug: ams
+description: AMS ADDON!
+url: "https://github.com/home-assistant/addons-example/tree/main/example"
+arch:
+  # - armhf
+  # - armv7
+  # - aarch64
+  - amd64
+  # - i386
+init: false
+map:
+  - share:rw
+# docker_api: true
+host_network: true
+options:
+  local_addr: "127.0.0.1:8123"
+  remote_addr: "20.55.101.242:2333"
+  token: "myveryownsecret"
+schema:
+  message: "str?"
+  link: "str"
+# image: "ghcr.io/home-assistant/{arch}-addon-example"
+# image: my-test-addon-amd64
+
