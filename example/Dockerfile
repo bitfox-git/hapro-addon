@@ -2,6 +2,9 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+RUN apk add git
+RUN git clone https://github.com/BeryJu/hass-auth-header /usr/src/hass-auth-header
+
 # Execute during the build of the image
 ARG TEMPIO_VERSION BUILD_ARCH
 RUN \

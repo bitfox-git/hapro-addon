@@ -13,13 +13,16 @@ arch:
 init: false
 map:
   - share:rw
+  - homeassistant_config:rw
 host_network: true
 options:
   local_addr: ""
   remote_addr: ""
   token: ""
+  name: ""
 schema:
   local_addr: str
   remote_addr: str
   token: str
+  name: str
 

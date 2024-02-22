@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bashio
+
+bashio::log.info "Running CP JOB"
+
+ls /homeassistant
+
+mkdir -p /homeassistant/custom_components
+
+cp -R /usr/src/hass-auth-header/custom_components/auth_header /homeassistant/custom_components/auth-header
+
+bashio::log.info "Done CP JOB"

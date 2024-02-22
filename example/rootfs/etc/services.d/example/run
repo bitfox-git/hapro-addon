@@ -10,19 +10,36 @@
 declare token
 declare remote_addr
 declare local_addr
+declare name
 
 # Get the config from the user config options.
 token=$(bashio::config 'token')
 remote_addr=$(bashio::config 'remote_addr')
 local_addr=$(bashio::config 'local_addr')
+name="homeassistant"
 
 cat > /usr/bin/client.toml << EOF
 [client]
 remote_addr = "$remote_addr"
 
-[client.services.homeassistant]
+[client.transport]
+type = "tcp"
+
+[client.transport.tcp]
+nodelay = true
+keepalive_secs = 20
+keepalive_interval = 8
+
+[client.services."$name"]
 token = "$token"
 local_addr = "$local_addr"
 EOF
+
+bashio::log.info "client.toml:"
+cat /usr/bin/client.toml
+bashio::log.info "token: $token"
+bashio::log.info "remote_addr: $remote_addr"
+bashio::log.info "local_addr: $local_addr"
+bashio::log.info "name: $name"
 
 exec /usr/bin/rathole -c /usr/bin/client.toml
