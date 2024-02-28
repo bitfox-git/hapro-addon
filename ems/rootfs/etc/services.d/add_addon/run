@@ -3,11 +3,12 @@
 
 bashio::log.info "Running CP JOB"
 
-ls /homeassistant
-
 mkdir -p /homeassistant/custom_components
 
 cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
+
+cp /usr/src/config/ems.yaml /homeassistant
+cp /usr/src/config/auth.yaml /homeassistant
 
 bashio::log.info "Done CP JOB"
 
