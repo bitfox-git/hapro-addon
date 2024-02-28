@@ -1,13 +1,13 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: AMS ADDON
+name: EMS ADDON
 version: "1.2.0"
-slug: ams
-description: AMS ADDON!
-url: "https://github.com/home-assistant/addons-example/tree/main/example"
+slug: ems
+description: EMS Home Assistant Addon
+url: "https://github.com/bitfox-git/ems-ha"
 arch:
   # - armhf
   # - armv7
-  # - aarch64
+  - aarch64
   - amd64
   # - i386
 init: false
@@ -26,4 +26,3 @@ schema:
   remote_addr: str
   token: str
   name: str
-
