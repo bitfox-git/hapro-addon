@@ -10,7 +10,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["timonwong.shellcheck", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker", "codeium.codeium", "tamasfe.even-better-toml"],
+      "extensions": ["timonwong.shellcheck", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker", "codeium.codeium", "tamasfe.even-better-toml", "wakatime.vscode-wakatime"],
       "settings": {
         "terminal.integrated.profiles.linux": {
           "zsh": {

@@ -14,6 +14,7 @@ init: false
 map:
   - share:rw
   - homeassistant_config:rw
+  - backup:rw
 host_network: true
 options:
   local_addr: ""

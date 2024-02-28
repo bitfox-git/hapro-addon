@@ -1,12 +1,13 @@
-# Home Assistant Add-on: AMS
+# Home Assistant Add-on: EMS
 
-_Example add-on to use as a blueprint for new add-ons._
+_EMS addon._
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports armhf Architecture][armhf-shield]
-![Supports armv7 Architecture][armv7-shield]
-![Supports i386 Architecture][i386-shield]
+
+<!-- ![Supports armhf Architecture][armhf-shield] -->
+<!-- ![Supports armv7 Architecture][armv7-shield] -->
+<!-- ![Supports i386 Architecture][i386-shield] -->
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
