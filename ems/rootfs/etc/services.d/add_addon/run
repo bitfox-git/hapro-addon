@@ -1,4 +1,5 @@
-#!/usr/bin/with-contenv bashio
+#!/command/with-contenv bashio
+# shellcheck shell=bash
 
 bashio::log.info "Running CP JOB"
 
@@ -6,6 +7,8 @@ ls /homeassistant
 
 mkdir -p /homeassistant/custom_components
 
-cp -R /usr/src/hass-auth-header/custom_components/auth_header /homeassistant/custom_components/auth-header
+cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
 
 bashio::log.info "Done CP JOB"
+
+sleep 60000000
