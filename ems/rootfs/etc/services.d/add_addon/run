@@ -1,14 +1,32 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 
+exec > >(tee -a /homeassistant/runlog.log) 2>&1
+
 bashio::log.info "Running CP JOB"
 
 mkdir -p /homeassistant/custom_components
 
-cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
+# Copy only if the directory is not already present
+if [ ! -d "/homeassistant/custom_components" ]; then
+    cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
+fi
 
-cp /usr/src/config/ems.yaml /homeassistant
-cp /usr/src/config/auth.yaml /homeassistant
+# Copy ems.yaml only if it doesn't already exist
+if [ ! -f "/homeassistant/ems.yaml" ]; then
+    cp /usr/src/config/ems.yaml /homeassistant
+fi
+
+# Copy auth.yaml only if it doesn't already exist
+if [ ! -f "/homeassistant/auth.yaml" ]; then
+    cp /usr/src/config/auth.yaml /homeassistant
+fi
+
+
+export DENO_INSTALL="/root/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
+
+deno run -A /usr/src/setupScript.ts /homeassistant/configuration.yaml
 
 bashio::log.info "Done CP JOB"
 

@@ -2,7 +2,7 @@
   "name": "EMS Home Assistant add-on repository",
   "image": "ghcr.io/home-assistant/devcontainer:addons",
   "appPort": ["7123:8123", "7357:4357"],
-  "postStartCommand": "bash devcontainer_bootstrap",
+  "postStartCommand": "bash -c \"curl -fsSL https://deno.land/install.sh && bash devcontainer_bootstrap\"",
   "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"],
   "remoteUser":"root",
   "containerEnv": {
@@ -10,7 +10,7 @@
   },
   "customizations": {
     "vscode": {
-      "extensions": ["timonwong.shellcheck", "usernamehw.errorlens", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker", "codeium.codeium", "tamasfe.even-better-toml", "wakatime.vscode-wakatime", "streetsidesoftware.code-spell-checker", "streetsidesoftware.code-spell-checker-dutch", "streetsidesoftware.code-spell-checker-british-english"],
+      "extensions": ["timonwong.shellcheck", "usernamehw.errorlens", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker", "codeium.codeium", "tamasfe.even-better-toml", "wakatime.vscode-wakatime", "streetsidesoftware.code-spell-checker", "streetsidesoftware.code-spell-checker-dutch", "streetsidesoftware.code-spell-checker-british-english", "denoland.vscode-deno"],
       "settings": {
         "terminal.integrated.profiles.linux": {
           "zsh": {
@@ -28,6 +28,9 @@
   },
   "mounts": [
     "type=volume,target=/var/lib/docker",
-  	"source=${localEnv:HOME}/.wakatime.cfg,target=/root/.wakatime.cfg,type=bind,consistency=delegated"
+  	"source=${localEnv:HOME}/.wakatime.cfg,target=/root/.wakatime.cfg,type=bind,consistency=delegated",
+    "source=profile,target=/root,type=volume",
+    "target=/root/.vscode-server,type=volume",
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
   ]
 }

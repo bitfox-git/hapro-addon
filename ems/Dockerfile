@@ -1,17 +1,13 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 ARG BUILD_FROM
-FROM ghcr.io/dvdplaat/rathole as rathole
+FROM rapiz1/rathole:latest as rathole
+FROM denoland/deno:debian as deno
 FROM $BUILD_FROM
-
-RUN apk add git
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt update && apt install -y git curl && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/BeryJu/hass-auth-header /usr/src/hass-auth-header
 
-# Execute during the build of the image
-ARG TEMPIO_VERSION BUILD_ARCH
-RUN \
-    curl -sSLf -o /usr/bin/tempio \
-    "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
-
 COPY --from=rathole /app/rathole /usr/bin/rathole
+COPY --from=deno /usr/bin/deno /usr/bin/deno
 
 COPY rootfs /

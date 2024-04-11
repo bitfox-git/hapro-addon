@@ -14,9 +14,12 @@
 
         ```
         http: !include ems.yaml
-        auth_header:
-            username_header: X-Forwarded-Preferred-Username
+        auth_header: !include auth.yaml
         ```
 
 11. restart home assistant
 12. mission complete!
+
+> ![TIP]
+> You only need to install the addon and insert the token then restart home assistant and it will work too :)
+> If that doesn't work continue from step 8
