@@ -17,7 +17,7 @@ if (txt.includes("http: !include ems.yaml")) {
   );
 }
 
-if (txt.includes("auth_header: !include auth.yml")) {
+if (txt.includes("auth_header: !include auth.yaml")) {
   console.log("Auth Header Correct");
 } else if (txt.includes("auth_header:")) {
   console.error("Auth Header In-Correct");
@@ -26,6 +26,6 @@ if (txt.includes("auth_header: !include auth.yml")) {
   console.log("Auth Header Missing; auto fixing possible");
   await Deno.writeTextFile(
     file,
-    txt + "\nauth_header: !include auth.yml # Added by EMS Addon"
+    txt + "\nauth_header: !include auth.yaml # Added by EMS Addon"
   );
 }
