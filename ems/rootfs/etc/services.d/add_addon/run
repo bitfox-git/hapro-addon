@@ -1,14 +1,14 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 
-exec > >(tee -a /homeassistant/runlog.log) 2>&1
+# exec > >(tee -a /homeassistant/runlog.log) 2>&1
 
 bashio::log.info "Running CP JOB"
 
 mkdir -p /homeassistant/custom_components
 
 # Copy only if the directory is not already present
-if [ ! -d "/homeassistant/custom_components" ]; then
+if [ ! -d "/homeassistant/custom_components/auth_header" ]; then
     cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
 fi
 

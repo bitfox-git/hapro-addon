@@ -6,6 +6,7 @@ FROM $BUILD_FROM
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y git curl && rm -rf /var/lib/apt/lists/*
 RUN git clone https://github.com/BeryJu/hass-auth-header /usr/src/hass-auth-header
+COPY hass-auth-header /usr/src/hass-auth-header
 
 COPY --from=rathole /app/rathole /usr/bin/rathole
 COPY --from=deno /usr/bin/deno /usr/bin/deno
