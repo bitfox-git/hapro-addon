@@ -19,6 +19,10 @@ jobs:
     outputs:
       changed_addons: ${{ steps.changed_addons.outputs.addons }}
       changed: ${{ steps.changed_addons.outputs.changed }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4.1.1
@@ -66,7 +70,10 @@ jobs:
         addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
         # arch: ["aarch64", "amd64", "armhf", "armv7", "i386"]
         arch: ["aarch64", "amd64"]
-
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4.1.1
