@@ -23,3 +23,7 @@
 > ![TIP]
 > You only need to install the addon and insert the token then restart home assistant and it will work too :)
 > If that doesn't work continue from step 8
+
+### Debugging
+
+The easiest way to debug is to run the `./open_shell.sh` script to enter the docker container then run your debugging commands there!
