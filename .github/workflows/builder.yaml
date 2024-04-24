@@ -115,5 +115,6 @@ jobs:
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
             --image "${{ steps.check.outputs.image }}" \
+            --cosign \
             --docker-hub "ghcr.io/${{ github.repository_owner }}" \
             --addon
