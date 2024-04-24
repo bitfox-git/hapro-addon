@@ -1,4 +1,4 @@
-const file = Deno.args[0];
+const file = Deno.args[0]; // file to check for
 
 const txt = await Deno.readTextFile(file);
 
