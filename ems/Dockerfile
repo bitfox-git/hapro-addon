@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 ARG BUILD_FROM
-FROM rapiz1/rathole:latest as rathole
+FROM ghcr.io/dvdplaat/rathole:latest as rathole
 FROM denoland/deno:debian as deno
 FROM $BUILD_FROM
 ENV DEBIAN_FRONTEND=noninteractive
