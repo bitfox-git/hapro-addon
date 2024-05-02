@@ -13,5 +13,8 @@ const body = {
 
 await fetch(`${prohome.admin_api}/home/${id}/vinfo`, {
   method: "patch",
-  body: JSON.stringify(body)
+  body: JSON.stringify(body),
+  headers: {
+    "Content-Type": "application/json",
+  }
 });
