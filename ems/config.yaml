@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: EMS ADDON
-version: "0.1.1"
+name: HaPro ADDON
+version: "0.1.2"
 slug: ems
 image: ghcr.io/dvd-plaat/ems-addon-{arch}
 description: EMS Home Assistant Addon
