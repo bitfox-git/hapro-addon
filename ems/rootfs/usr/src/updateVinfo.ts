@@ -11,7 +11,7 @@ const body = {
   ...data.data,
 };
 
-await fetch(`${prohome.admin_api}/home/${id}/vinfo`, {
+await fetch(`${prohome.admin_api}home/${id}/vinfo`, {
   method: "patch",
   body: JSON.stringify(body),
   headers: {
