@@ -33,4 +33,5 @@ deno run -A /usr/src/updateVinfo.ts $token
 
 bashio::log.info "Done CP JOB"
 
-sleep 60000000
+# Rerun the script every 12 hours to update version info - we don't want to use cron for load reasons
+sleep 43200
