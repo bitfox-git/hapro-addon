@@ -1,0 +1,15 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+output=$(/usr/src/caddySource.ts)
+
+if [ -n "$output" ]; then
+    # Loop through each line of the output
+    while IFS= read -r line; do
+        # Set each line as an environment variable
+        export "$line"
+    done <<< "$output"
+fi
+
+env > /usr/src/env.txt2
+
+exec caddy run --config /usr/src/Caddyfile

@@ -24,15 +24,26 @@ export async function doRequest(
   path: string,
   method = "GET",
   body: any = undefined,
+  {
+    text
+  }: {
+    text?: boolean
+  } = {}
 ) {
   path = replaceVariables(path, options);
-  const response = await fetch(`${hapro.admin_api}${path}`.replace("//", "/"), {
+  let p = `${hapro.admin_api}${path}`.replace("//", "/");
+  const response = await fetch(p, {
     method: method,
     headers: {
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,
   });
+  if (!response.ok) {
+    console.log(await response.text());
+    console.log(`status: ${response.status} path: ${p}\nbody: ${body}`)
+  }
+  if(text) return await response.text()
   return await response.json();
 }
 
