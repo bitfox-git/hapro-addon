@@ -4,7 +4,7 @@
 }
 
 http://internal-api, internal-api {
-    reverse_proxy loclahost:8081
+    reverse_proxy localhost:8081
 }
 
 http://{$PRO_HOST}, {$PRO_HOST} {
