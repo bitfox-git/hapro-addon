@@ -1,0 +1,6 @@
+http://internal-api {
+    reverse_proxy loclahost:8081
+}
+http://{$PRO_HOST} {
+    reverse_proxy {$HA_LOCATION}
+}

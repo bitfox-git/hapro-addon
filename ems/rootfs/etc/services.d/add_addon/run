@@ -29,7 +29,6 @@ export DENO_INSTALL="/root/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
 deno run -A /usr/src/setupScript.ts /homeassistant/configuration.yaml
-deno run -A /usr/src/updateVinfo.ts $token
 
 bashio::log.info "Done CP JOB"
 
