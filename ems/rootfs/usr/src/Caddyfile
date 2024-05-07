@@ -3,11 +3,11 @@
     auto_https disable_redirects
 }
 
-http://internal-api {
+http://internal-api, internal-api {
     reverse_proxy loclahost:8081
 }
 
-{$PRO_HOST} {
+http://{$PRO_HOST}, {$PRO_HOST} {
     reverse_proxy {$HA_LOCATION}
 }
 

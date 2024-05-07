@@ -13,11 +13,11 @@ token=$(bashio::config 'token')
 curl "https://admin.ems.bitfox.nl/homes/$token/config.toml" -o /usr/bin/client.toml
 
 # TODO: reduce perms
-port=$(deno run -A /usr/src/getPort.ts)
+# port=$(deno run -A /usr/src/getPort.ts)
 
-bashio::log.info "Automatically detected port: $port"
+# bashio::log.info "Automatically detected port: $port"
 
-sed -i "s/{{.Port}}/$port/g" /usr/bin/client.toml
+sed -i "s/{{.Port}}/80/g" /usr/bin/client.toml
 
 bashio::log.info "client.toml:"
 cat /usr/bin/client.toml
