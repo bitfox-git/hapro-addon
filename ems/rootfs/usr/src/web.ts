@@ -17,6 +17,32 @@ app.get("/info", async (c) => {
   });
 });
 
+app.get("/backups", async (c) => {
+  const response = await doSupervisor("/backups");
+
+  return c.json(response);
+});
+
+// note this should probably be a blueprint  / automation instead :)
+app.post("/backups/new/full", async (c) => {
+  let name;
+  try {
+    let data = await c.req.json();
+    name = data.name;
+  } catch (e) {}
+  const response = await doSupervisor("/backups/new/full", "POST", {
+    //TODO: add passwords
+    name,
+  });
+
+  return c.json(response);
+});
+
+app.onError((err, c) => {
+  console.error(err);
+  return c.json({ error: err.message }, 500);
+});
+
 try {
   Deno.serve(
     {
@@ -24,7 +50,7 @@ try {
     },
     app.fetch
   );
-} catch (e) {
+} catch (_e) {
   Deno.serve(
     {
       port: 8082,
