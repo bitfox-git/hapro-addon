@@ -1,8 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: HaPro ADDON
-version: "0.1.7"
+version: "0.1.8"
 slug: ems
-# image: ghcr.io/bitfox-git/ems-addon-{arch}
+image: ghcr.io/bitfox-git/ems-addon-{arch}
 description: EMS Home Assistant Addon
 url: "https://github.com/bitfox-git/ems-ha"
 arch:
