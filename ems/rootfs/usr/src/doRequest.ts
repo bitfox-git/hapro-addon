@@ -60,18 +60,26 @@ export async function doSupervisor(
   method = "GET",
   body: any = undefined,
 ) {
+  const d = getSupervisorData(path)
   const response = await fetch(
-    `${baseSupervisorUrl}${path}`.replace("//", "/"),
+    d.url,
     {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        ...supervisorHeaders(),
+        ...d.headers,
       },
       body: body ? JSON.stringify(body) : undefined,
     },
   );
   return await response.json();
+}
+
+export  function getSupervisorData(path:string) {
+  return {
+    url: `${baseSupervisorUrl}${path}`.replace("//", "/"),
+    headers: supervisorHeaders()
+  }
 }
 
 if (import.meta.main) {
