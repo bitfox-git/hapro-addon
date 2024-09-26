@@ -1,0 +1,25 @@
+#!/usr/bin/with-contenv bashio
+uuid=$(jq -r '.data.uuid' /homeassistant/.storage/core.uuid)
+bashio::log.notice "Your unique ID: $uuid"
+
+bashio::log.notice "Getting client.toml"
+res=$(curl -s -o /usr/bin/client.toml -w "%{http_code}" "http://api.hapro.cloud/api/Device/$uuid/rathole" )
+bashio::log.notice "HTTP Get Client.toml Status Code: $res"
+if [ "$res" -eq 404 ]; then
+    bashio::log.error "Failed to get client.toml, registering device first"
+    res2=$(curl -s -H "Content-Type: application/json" -d "{\"uuid\":\"$uuid\",\"haAcc\":\"haAcc\"}" "http://api.hapro.cloud/api/PendingDevice/"| jq .statusCode)
+    bashio::log.notice "HTTP Post device Status Code: $res2"
+    if [ "$res2" -eq 200 ]; then
+        bashio::log.info "Device registered, claim this device on the portal with token $uuid"
+    fi
+    exit 1
+elif [ "$res" -ne 200 ]; then
+    bashio::log.error "Something went wrong, please try again later"
+    exit 1
+fi
+#TODO: Make dynamic
+sed -i "s/{{.PORT}}/80/g" /usr/bin/client.toml
+sed -i "s/{{.HOST}}/localhost/g" /usr/bin/client.toml
+
+bashio::log.notice "Starting rathole"
+exec /usr/bin/rathole -c /usr/bin/client.toml
