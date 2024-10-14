@@ -6,7 +6,6 @@ http://hapro-api, hapro-api {
     respond "ELLO API (•‿•)"
 }
 
-#TODO: make dynamic
 http://{$HA_SUBDOMAIN}.hapro.cloud, {$HA_SUBDOMAIN}.hapro.cloud {
     reverse_proxy 0.0.0.0:{$HA_PORT}
 }

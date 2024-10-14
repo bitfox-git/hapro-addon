@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bashio
+bashio::log.notice "CADDY: Starting Caddy"
+
+source /usr/src/request.sh
+doSupervisorRequest "core/info"
+export HA_PORT=$(echo "$response" | jq -r .data.port) >> ./env.txt2
+
+subdomain=$(grep '\[client.services\.' /usr/bin/client.toml | sed -n 's/.*\[client\.services\.\([^]]*\)\].*/\1/p')
+export HA_SUBDOMAIN=$subdomain >> ./env.txt2
+
+caddy run --config /usr/src/Caddyfile --envfile ./env.txt2

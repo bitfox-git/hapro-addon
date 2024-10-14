@@ -10,7 +10,7 @@
 
 ## TODO for refactor:
 - [x] Recreate Rathole handling
-- [x] Tranfer to new api
+- [x] Transfer to new api
 - [ ] Recreate the internal api handling
 - [ ] Recreate the hass auth header
 - [ ] Move creating of (rathole) images to bitfox

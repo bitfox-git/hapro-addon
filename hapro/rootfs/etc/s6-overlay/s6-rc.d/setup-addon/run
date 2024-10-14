@@ -1,0 +1,47 @@
+#!/usr/bin/with-contenv bashio
+uuid=$(jq -r '.data.uuid' /homeassistant/.storage/core.uuid)
+bashio::log.notice "SETUP-ADDON: Your unique ID: $uuid"
+
+# Load variables
+source /usr/src/config/vars.sh
+source /usr/src/request.sh
+
+bashio::log.notice "SETUP-ADDON: Setting HA configuration"
+mkdir -p /homeassistant/custom_components
+if [ ! -f "/homeassistant/hapro-http.yaml" ]; then
+    cp /usr/src/config/http.yaml /homeassistant/hapro-http.yaml
+fi
+if ! grep -q "http:" /homeassistant/configuration.yaml; then
+    echo "http: !include hapro-http.yaml #Added by the HAPro addon" >> /homeassistant/configuration.yaml
+    bashio::log.error "SETUP-ADDON: Added http.yaml to configuration.yaml, please restart Home Assistant"
+    doHaInternalApiRequest "services/notify/persistent_notification" "POST" "{\"title\":\"HAPro requires restart\",\"message\":\"HAPro changed your configuration.yaml, please restart Home Assistant\",\"data\":{\"notification_id\":\"hapro_restart\"}}"
+    /etc/s6-overlay/s6-rc.d/setup-addon/finish 1
+    exit 1
+fi
+
+bashio::log.notice "SETUP-ADDON: Getting client.toml"
+res=$(curl -s -o /usr/bin/client.toml -w "%{http_code}" "$HaproApi/api/Device/$uuid/rathole" )
+if [ "$res" -eq 404 ]; then
+    bashio::log.error "SETUP-ADDON: Failed to get client.toml, registering device first"
+
+    bashio::log.notice "SETUP-ADDON: Getting owner account"
+    doSupervisorRequest "auth/list"
+    ownerAcc=$(jq -r '.data.users[] | select(.is_owner==true) | .name' /homeassistant/.storage/auth)
+    bashio::log.notice "SETUP-ADDON: Owner account: $ownerAcc"
+    
+    res2=$(curl -s -H "Content-Type: application/json" -d "{\"uuid\":\"$uuid\",\"haAcc\":\"$ownerAcc\"}" "$HaproApi/api/PendingDevice/"| jq .statusCode)
+    bashio::log.notice "SETUP-ADDON: HTTP Post device Status Code: $res2"
+    if [ "$res2" -eq 200 ]; then
+        bashio::log.info "SETUP-ADDON: Device registered, claim this device on the portal with token: $uuid"
+    fi
+    /etc/s6-overlay/s6-rc.d/setup-addon/finish 1
+    exit 1
+elif [ "$res" -ne 200 ]; then
+    bashio::log.error "SETUP-ADDON: HTTP Get Client.toml Status Code: $res"
+    bashio::log.error "SETUP-ADDON: Something went wrong, please try again later"
+    /etc/s6-overlay/s6-rc.d/setup-addon/finish 1
+    exit 1
+fi
+
+
+bashio::log.info "SETUP-ADDON: Setup done"
