@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bashio
+bashio::log.info "SETUP-ADDON: Starting setup"
 uuid=$(jq -r '.data.uuid' /homeassistant/.storage/core.uuid)
 bashio::log.notice "SETUP-ADDON: Your unique ID: $uuid"
 
@@ -8,12 +9,27 @@ source /usr/src/request.sh
 
 bashio::log.notice "SETUP-ADDON: Setting HA configuration"
 mkdir -p /homeassistant/custom_components
+if [ ! -d "/homeassistant/custom_components/auth_header" ]; then
+    cp -R /usr/src/hass-auth-header/custom_components/* /homeassistant/custom_components/
+fi
 if [ ! -f "/homeassistant/hapro-http.yaml" ]; then
     cp /usr/src/config/http.yaml /homeassistant/hapro-http.yaml
 fi
+if [ ! -f "/homeassistant/hapro-auth.yaml" ]; then
+    cp /usr/src/config/auth.yaml /homeassistant/hapro-auth.yaml
+fi
+
+changed=0
 if ! grep -q "http:" /homeassistant/configuration.yaml; then
     echo "http: !include hapro-http.yaml #Added by the HAPro addon" >> /homeassistant/configuration.yaml
-    bashio::log.error "SETUP-ADDON: Added http.yaml to configuration.yaml, please restart Home Assistant"
+    changed=1
+fi
+if ! grep -q "auth_header:" /homeassistant/configuration.yaml; then
+    echo "auth_header: !include hapro-auth.yaml #Added by the HAPro addon" >> /homeassistant/configuration.yaml
+    changed=1
+fi
+if [ "$changed" -eq 1 ]; then
+    bashio::log.error "SETUP-ADDON: Made changes to configuration.yaml, please restart Home Assistant"
     doHaInternalApiRequest "services/notify/persistent_notification" "POST" "{\"title\":\"HAPro requires restart\",\"message\":\"HAPro changed your configuration.yaml, please restart Home Assistant\",\"data\":{\"notification_id\":\"hapro_restart\"}}"
     /etc/s6-overlay/s6-rc.d/setup-addon/finish 1
     exit 1
@@ -25,7 +41,7 @@ if [ "$res" -eq 404 ]; then
     bashio::log.error "SETUP-ADDON: Failed to get client.toml, registering device first"
 
     bashio::log.notice "SETUP-ADDON: Getting owner account"
-    doSupervisorRequest "auth/list"
+    # doSupervisorRequest "auth/list"
     ownerAcc=$(jq -r '.data.users[] | select(.is_owner==true) | .name' /homeassistant/.storage/auth)
     bashio::log.notice "SETUP-ADDON: Owner account: $ownerAcc"
     

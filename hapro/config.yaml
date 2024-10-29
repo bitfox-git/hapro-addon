@@ -1,12 +1,13 @@
 name: "Home Assistant Professional"
 description: "Enables home assistant to be usable in batch"
 slug: "hapro"
-version: "v1.0-alpha2"
+version: "v1.0-alpha3"
 url: "https://github.com/bitfox-git/hapro-addon"
 init: false
 host_network: true
 homeassistant_api: true
 hassio_api: true
+hassio_role: "manager"
 arch:
   - aarch64
   - amd64

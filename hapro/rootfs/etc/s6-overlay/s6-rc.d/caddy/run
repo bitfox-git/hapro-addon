@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv bashio
-bashio::log.notice "CADDY: Starting Caddy"
+bashio::log.info "CADDY: Starting Caddy"
 
 source /usr/src/request.sh
 doSupervisorRequest "core/info"

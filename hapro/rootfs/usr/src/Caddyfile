@@ -3,7 +3,7 @@
 }
 
 http://hapro-api, hapro-api {
-    respond "ELLO API (•‿•)"
+    reverse_proxy 0.0.0.0:3000
 }
 
 http://{$HA_SUBDOMAIN}.hapro.cloud, {$HA_SUBDOMAIN}.hapro.cloud {

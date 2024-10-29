@@ -7,5 +7,6 @@ haIp=$(echo $response | jq -r '.data.ip_address')
 sed -i "s/{{.PORT}}/80/g" /usr/bin/client.toml
 sed -i "s/{{.HOST}}/$haIp/g" /usr/bin/client.toml
 
-bashio::log.notice "RATHOLE: Starting rathole"
+bashio::log.info "RATHOLE: Starting rathole"
+cat /usr/bin/client.toml
 exec /usr/bin/rathole -c /usr/bin/client.toml
