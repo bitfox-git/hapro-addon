@@ -8,14 +8,6 @@
 <!-- ![Supports armv7 Architecture][armv7-shield] -->
 <!-- ![Supports i386 Architecture][i386-shield] -->
 
-## TODO for refactor:
-- [x] Recreate Rathole handling
-- [x] Transfer to new api
-- [ ] Recreate the internal api handling
-- [ ] Recreate the hass auth header
-- [ ] Move creating of (rathole) images to bitfox
-
-
 HAPRO extends the capabilities of your Home Assistant installation by providing an easy-to-use interface for creating public URLs, managing cloud backups, and handling multiple homes seamlessly.
 
 ## Features

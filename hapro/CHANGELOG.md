@@ -1,5 +1,12 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha4 - 28/10/2024
+
+### Added
+- The auth headers from the Traefik middleware are now used to skip the HA login page
+- All traffic to the ha is now validated by the Traefik middleware
+- Ip endpoint to internal api
+
 ## v1.0-alpha3 - 15/10/2024
 
 ### Added

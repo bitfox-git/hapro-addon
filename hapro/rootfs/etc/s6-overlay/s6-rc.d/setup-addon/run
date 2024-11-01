@@ -7,6 +7,9 @@ bashio::log.notice "SETUP-ADDON: Your unique ID: $uuid"
 source /usr/src/config/vars.sh
 source /usr/src/request.sh
 
+ip=$(curl -s http://ipinfo.io/ip)
+bashio::log.notice "SETUP-ADDON: Your public IP: $ip"
+
 bashio::log.notice "SETUP-ADDON: Setting HA configuration"
 mkdir -p /homeassistant/custom_components
 if [ ! -d "/homeassistant/custom_components/auth_header" ]; then

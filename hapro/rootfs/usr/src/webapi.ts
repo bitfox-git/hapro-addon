@@ -13,6 +13,8 @@ serve({
         return await ping();
       case "/info":
         return await getInfo();
+      case "/ip":
+        return await getIp();
       default:
         return new Response(JSON.stringify({ status: 404, error: "Not Found" }));
     }
@@ -22,6 +24,12 @@ serve({
 async function ping() {
   const pingResponse = await doSupervisorRequest("/supervisor/ping");
   return new Response(JSON.stringify(pingResponse));
+}
+
+async function getIp() {
+  const ipResponse = await fetch("https://ipinfo.io/ip");
+  const ip = await ipResponse.text();
+  return new Response(JSON.stringify({ status: 200, data: ip }));
 }
 
 async function getInfo() {
