@@ -1,5 +1,14 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha5 - 04/11/2024
+
+### Added
+- The internal api now has the following endpoints for updates:
+    - GET: updates: returns all available updates
+    - POST: updates/{updateSlug}: installs the update with the given slug
+    - POST: updates/{updateSlug}/skip: skips the update with the given slug
+    - POST: updates/{updateSlug}/clear: clears the skipped update with the given slug
+
 ## v1.0-alpha4 - 28/10/2024
 
 ### Added
