@@ -107,10 +107,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enforce LF line endings in repository files
-        run: |
-          find . -type f \( -name "*.sh" -o -name "*.yaml" -o -name "Dockerfile" \) -exec dos2unix {} \;
-
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@2024.03.5
@@ -123,7 +119,3 @@ jobs:
             --cosign \
             --docker-hub "ghcr.io/${{ github.repository_owner }}" \
             --addon
-            
-      - name: Verify line endings in built package
-        run: |
-          find /data/${{ matrix.addon }} -type f -exec file "{}" \;
