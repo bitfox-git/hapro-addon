@@ -1,5 +1,14 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha6 - 06/11/2024
+
+### Added
+- The internal api now supports getting history of a specific statistic
+- The internal api also supports enabling statistics
+
+### Changed
+- The info endpoint now returns the system monitor stats if available, otherwise it tries to use a fallback value from the supervisor
+
 ## v1.0-alpha5 - 04/11/2024
 
 ### Added
