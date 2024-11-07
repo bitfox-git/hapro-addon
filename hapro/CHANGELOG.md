@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha8 - 07/11/2024
+
+### Fixed
+- CRLF line endings have been replaced with LF line endings
+
 ## v1.0-alpha7 - 07/11/2024
 
 ### Added
