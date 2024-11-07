@@ -14,4 +14,4 @@ COPY --from=rathole /app/rathole /usr/bin/rathole
 COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
 COPY rootfs /
 
-RUN find /usr/src/hass-auth-header /usr/bin /rootfs -type f -exec dos2unix {} \;
+RUN find /usr/src/hass-auth-header /usr/bin / -type f -exec dos2unix {} \;
