@@ -1,5 +1,4 @@
-# Home Assistant Add-on: HAPRO
-
+# Home Assistant Add-on: HaPRO
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
@@ -8,19 +7,19 @@
 <!-- ![Supports armv7 Architecture][armv7-shield] -->
 <!-- ![Supports i386 Architecture][i386-shield] -->
 
-HAPRO extends the capabilities of your Home Assistant installation by providing an easy-to-use interface for creating public URLs, managing cloud backups, and handling multiple homes seamlessly.
+HaPRO extends the capabilities of your Home Assistant installation by providing an easy-to-use interface for creating public URLs, managing cloud backups, and handling multiple homes seamlessly.
 
 ## Features
 
 ### Public URL Creation
 
 - **Secure Access Anywhere**: Generate secure, public URLs for your Home Assistant setup, allowing you to access your smart home from anywhere in the world.
-- **Automatic SSL Management**: HAPRO handles SSL certificate generation and renewal to ensure your connections are always secure.
+- **Automatic SSL Management**: HaPRO handles SSL certificate generation and renewal to ensure your connections are always secure.
 
-### Cloud Backups
+<!-- ### Cloud Backups
 
 - **Scheduled Backups**: Configure automatic backups on a daily, weekly, or monthly basis.
-- **Offsite Storage**: Safeguard your configurations and data by storing backups in the cloud, protecting against local hardware failures.
+- **Offsite Storage**: Safeguard your configurations and data by storing backups in the cloud, protecting against local hardware failures. -->
 
 ### Multi-Home Management
 
@@ -32,23 +31,22 @@ HAPRO extends the capabilities of your Home Assistant installation by providing 
 ### Prerequisites
 
 - Home Assistant installed and running on your local network.
-- An active internet connection for setting up public URLs and cloud backups.
+- An active internet connection for setting up public URLs.
 
 ### Installation
 
-1. Add the repository to your home assistant addons
-2. Install the addon
+1. From the Home Assistant Add-On Store, navigate to the overflow menu in the top right corner and select "Repositories."
+2. Add the following URL: [https://github.com/bitfox-git/hapro-addon](https://github.com/bitfox-git/hapro-addon)
+3. Refresh the Add-On Store, and you should see the HaPro Repository with the HaPro add-on.
+4. Click on the HaPro add-on, then click "Install."
 
 ### Configuration
 
--  Create a home on the dashboard
--  Copy the token
--  Insert the token into the config of hapra addon
--  Done!
-
-## Usage
-
-- Open the url and login
+-  Start the add-on after installation.
+- Go to the portal and login with your HaPro account.
+- Navigate to add a new device and paste the token from the add-on log.
+- Continue the setup process, which includes giving your device a name and restarting the add-on.
+- You should now see your device in the HaPro dashboard.
 
 ## Contributing
 

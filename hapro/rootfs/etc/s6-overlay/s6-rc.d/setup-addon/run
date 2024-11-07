@@ -24,16 +24,16 @@ fi
 
 changed=0
 if ! grep -q "http:" /homeassistant/configuration.yaml; then
-    echo "http: !include hapro-http.yaml #Added by the HAPro addon" >> /homeassistant/configuration.yaml
+    echo "http: !include hapro-http.yaml #Added by the HaPro addon" >> /homeassistant/configuration.yaml
     changed=1
 fi
 if ! grep -q "auth_header:" /homeassistant/configuration.yaml; then
-    echo "auth_header: !include hapro-auth.yaml #Added by the HAPro addon" >> /homeassistant/configuration.yaml
+    echo "auth_header: !include hapro-auth.yaml #Added by the HaPro addon" >> /homeassistant/configuration.yaml
     changed=1
 fi
 if [ "$changed" -eq 1 ]; then
     bashio::log.error "SETUP-ADDON: Made changes to configuration.yaml, please restart Home Assistant"
-    doHaInternalApiRequest "services/notify/persistent_notification" "POST" "{\"title\":\"HAPro requires restart\",\"message\":\"HAPro changed your configuration.yaml, please restart Home Assistant\",\"data\":{\"notification_id\":\"hapro_restart\"}}"
+    doHaInternalApiRequest "services/notify/persistent_notification" "POST" "{\"title\":\"HaPro requires restart\",\"message\":\"HaPro changed your configuration.yaml, please restart Home Assistant\",\"data\":{\"notification_id\":\"hapro_restart\"}}"
     /etc/s6-overlay/s6-rc.d/setup-addon/finish 1
     exit 1
 fi

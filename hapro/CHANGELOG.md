@@ -1,5 +1,14 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha7 - 07/11/2024
+
+### Added
+- Readded the github flows
+
+### Changed
+- README has been updated and the naming is now HaPro everywhere
+- The addon now uses the deployed image from the github registry
+
 ## v1.0-alpha6 - 06/11/2024
 
 ### Added
