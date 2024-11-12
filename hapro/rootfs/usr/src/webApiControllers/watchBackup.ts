@@ -1,6 +1,6 @@
 import { watch } from "fs";
 import { readdir } from "fs/promises";
-import { doSupervisorRequest } from "./webapi";
+import { doSupervisorRequest } from "./apiHelperService";
 
 const BACKUP_DIR = "/backup";
 

@@ -1,5 +1,13 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha9.1 - 12/11/2024
+
+### Added
+- Backup delete endpoint
+
+### Changed
+- The internal api has now been restructured to be more modular and easier to maintain
+
 ## v1.0-alpha9 - 12/11/2024
 
 ### Added
