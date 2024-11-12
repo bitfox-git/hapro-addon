@@ -1,4 +1,5 @@
 import { serve } from "bun";
+import { watchBackupDirectory } from "./watchBackup";
 
 const PORT = 3000;
 
@@ -57,6 +58,12 @@ serve({
         return await enableSystemMonitorEntities();
       case path.startsWith("/statistic/history/"):
         return await getStatisticHistory(path.split("/")[3]);
+      case path == "/backups":
+        return await getBackups();
+      case path.startsWith("/backups/") && path.endsWith("/info"):
+        return await getBackupInfo(path.split("/")[2]);
+      case path.startsWith("/backups/") && path.endsWith("/download"):
+        return await downloadBackup(path.split("/")[2]);
       default:
         return new Response(
           JSON.stringify({ StatusCode: 404, Message: "Not Found" })
@@ -182,7 +189,7 @@ async function getUpdates() {
   try {
     const template = `
 {% set entities = states.update | selectattr('state', 'equalto', 'on') | list %}
-{% set skippedentities = states.update | selectattr('attributes.skipped_version', 'ne', None) | list %}
+{% set skippedentities = states.update | selectattr('attributes.skipped_version', 'ne', None) | selectattr('state', 'equalto', 'off') | list %}
 {% set entities = entities + skippedentities %}
 [
 {% for entity in entities %}
@@ -296,6 +303,64 @@ async function getIconOfUpdate(addonSlug) {
         "Cache-Control": "public, max-age=86400",
       },
     });
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ StatusCode: 500, Message: "Internal Server Error" })
+    );
+  }
+}
+
+async function getBackups() {
+  try {
+    const response = await doSupervisorRequest("/backups");
+    console.log(response);
+    return new Response(JSON.stringify({ StatusCode: 200, data: response.data.backups }));
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ StatusCode: 500, Message: "Internal Server Error" })
+    );
+  }
+}
+
+async function getBackupInfo(backupId) {
+  try {
+    const response = await doSupervisorRequest(`/backups/${backupId}/info`);
+    const returnObject = {
+      slug: response.data.slug,
+      date: response.data.date,
+      name: response.data.name,
+      type: response.data.type,
+      protected: response.data.protected,
+      compressed: response.data.compressed,
+      size: response.data.size,
+      content: {
+        homeassistant: response.data.homeassistant !== null,
+        addons: response.data.addons.map(addon => addon.slug),
+        folders: response.data.folders,
+      }
+    };
+    return new Response(JSON.stringify({ StatusCode: 200, data: returnObject }));
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ StatusCode: 500, Message: "Internal Server Error" })
+    );
+  }
+}
+
+async function downloadBackup(backupId) {
+  try {
+    console.log(`Downloading backup ${backupId}`);
+    const response = await fetch(`http://supervisor/backups/${backupId}/download`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Bun.env.SUPERVISOR_TOKEN}`,
+      }
+    });
+    console.log(response);
+    return response;
   } catch (error) {
     console.error(error);
     return new Response(
@@ -549,7 +614,7 @@ async function enableSystemMonitorEntities() {
 
 //#region Helper functions
 
-async function doSupervisorRequest(
+export async function doSupervisorRequest(
   path: string,
   method = "GET",
   body = undefined
@@ -602,3 +667,5 @@ async function isSystemMonitorEnabled() {
 //#endregion Helper functions
 
 console.log(`Listening on http://localhost:${PORT} ...`);
+
+watchBackupDirectory();

@@ -1,5 +1,15 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha9 - 12/11/2024
+
+### Added
+- Backup system, the internal api has endpoints to list and download backups
+- The addon notifies the server when a backup is created and the server will manage the external storage of the backups
+- The logs now provide insight over the current addon version and the newest available version if applicable
+
+### Fixed
+- The updates now dont list unavailable updates anymore
+
 ## v1.0-alpha8 - 07/11/2024
 
 ### Fixed

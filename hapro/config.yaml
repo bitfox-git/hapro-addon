@@ -1,8 +1,8 @@
 name: "HaPro"
-description: "Enables home assistant to be usable in batch"
+description: "Professional manager for multiple HA installations."
 slug: "hapro"
-version: "v1.0-alpha8.6"
-image: ghcr.io/bitfox-git/hapro-addon-{arch}
+version: "v1.0-alpha9"
+# image: ghcr.io/bitfox-git/hapro-addon-{arch}
 url: "https://github.com/bitfox-git/hapro-addon"
 init: false
 host_network: true
@@ -14,3 +14,6 @@ arch:
   - amd64
 map:
   - homeassistant_config:rw
+  - backup:rw
+options:
+  uuid: str
