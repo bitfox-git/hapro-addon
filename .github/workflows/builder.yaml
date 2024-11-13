@@ -101,6 +101,10 @@ jobs:
           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
              echo "build_arch=true" >> $GITHUB_OUTPUT;
              echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
+             if [[ -z "${{ steps.info.outputs.image }}" ]]; then
+              echo "Image is null, failing the job."
+              exit 1
+            fi
              if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
              fi
@@ -119,7 +123,8 @@ jobs:
 
       - name: Set execute permissions
         run: |
-          chmod +x ./${{ matrix.addon }}/rootfs/etc/s6-overlay/s6-rc.d/setup-addon/run
+          find ./${{ matrix.addon }}/rootfs -type f -exec chmod +x {} \;
+        
 
       - name: Build ${{ matrix.addon }} add-on
         if: steps.check.outputs.build_arch == 'true'
