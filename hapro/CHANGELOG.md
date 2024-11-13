@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha9.2 - 13/11/2024
+
+### Fixed
+- The addon now properly handles existing http configurations in the configuration.yaml
+
 ## v1.0-alpha9.1 - 12/11/2024
 
 ### Added
