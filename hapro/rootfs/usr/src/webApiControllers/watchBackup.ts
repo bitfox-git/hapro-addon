@@ -36,7 +36,7 @@ async function notifyBackupComplete() {
     const uuid = JSON.parse(uuidEntry).data.uuid;
     console.log("UUID:", uuid);
 
-    await fetch(`https://api.test.hapro.cloud/api/backup/${uuid}/synchronize`, {
+    await fetch(`https://api.hapro.cloud/api/backup/${uuid}/synchronize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
