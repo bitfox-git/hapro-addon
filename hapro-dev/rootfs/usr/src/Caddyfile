@@ -1,0 +1,11 @@
+{
+    auto_https off
+}
+
+http://hapro-api, hapro-api {
+    reverse_proxy 0.0.0.0:3000
+}
+
+http://{$HA_SUBDOMAIN}.hapro.cloud, {$HA_SUBDOMAIN}.hapro.cloud {
+    reverse_proxy 0.0.0.0:{$HA_PORT}
+}
