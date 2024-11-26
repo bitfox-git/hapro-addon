@@ -1,5 +1,20 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha10 - 19/11/2024
+
+### Added
+- Added backup restore endpoint
+- Added backup restore status endpoint
+- Added backup upload endpoint
+- Improved rathole security
+
+### Changed
+- Renamed all device and update slugs to identifier
+
+### Fixed
+- The backup notifier now only starts tracking on .tar files
+- Error on system monitor check (json parse)
+
 ## v1.0-alpha9.2 - 13/11/2024
 
 ### Fixed

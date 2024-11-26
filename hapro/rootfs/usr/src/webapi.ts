@@ -62,12 +62,26 @@ serve({
         return await backupController.getBackupInfo(path.split("/")[2]);
       case path.startsWith("/backups/") && path.endsWith("/download"):
         return await backupController.downloadBackup(path.split("/")[2]);
+      case path == "/backups/upload":
+        if (req.method !== "POST")
+          return new Response(
+            JSON.stringify({ StatusCode: 405, Message: "Method Not Allowed" })
+          );
+        return await backupController.uploadBackup(req);
       case path.startsWith("/backups/") && path.endsWith("/delete"):
         if (req.method !== "DELETE")
           return new Response(
             JSON.stringify({ StatusCode: 405, Message: "Method Not Allowed" })
           );
         return await backupController.deleteBackup(path.split("/")[2]);
+      case path.startsWith("/backups/") && path.endsWith("/restore"):
+        if (req.method !== "POST")
+          return new Response(
+            JSON.stringify({ StatusCode: 405, Message: "Method Not Allowed" })
+          );
+        return await backupController.restoreBackup(path.split("/")[2]);
+      case path.startsWith("/backups/") && path.endsWith("/status"):
+        return await backupController.backupStatus(path.split("/")[2]);
       default:
         return new Response(
           JSON.stringify({ StatusCode: 404, Message: "Not Found" })

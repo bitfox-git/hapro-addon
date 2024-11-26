@@ -1,7 +1,7 @@
 async function doSupervisorRequest(
   path: string,
   method = "GET",
-  body = undefined
+  body: object | undefined = undefined
 ) {
   const response = await fetch(`http://supervisor${path}`, {
     method: method,
@@ -46,7 +46,7 @@ async function isSystemMonitorEnabled() {
   const response = await doHaInternalApiRequest(`/template`, "POST", {
     template: `{{ integration_entities('System Monitor') }}`,
   });
-  return JSON.parse(response.replace(/'/g, '"')).length > 0;
+  return response.length > 0;
 }
 
 export { doSupervisorRequest, doHaInternalApiRequest, isSystemMonitorEnabled };

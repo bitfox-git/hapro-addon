@@ -66,15 +66,17 @@ export async function watchBackupDirectory() {
       const newFile = newFiles[0];
       if (newFile) {
         console.log(`New file detected: ${newFile}`);
-        const retryInterval = setInterval(async () => {
-          const isBackupComplete = await checkBackupCompletion(newFile);
-          if (isBackupComplete) {
-            await notifyBackupComplete();
-            clearInterval(retryInterval);
-          } else {
-            console.log(`Backup for ${newFile} is not yet listed, retrying...`);
-          }
-        }, 10000);
+        if(newFile.endsWith(".tar")) {
+          const retryInterval = setInterval(async () => {
+            const isBackupComplete = await checkBackupCompletion(newFile);
+            if (isBackupComplete) {
+              await notifyBackupComplete();
+              clearInterval(retryInterval);
+            } else {
+              console.log(`Backup for ${newFile} is not yet listed, retrying...`);
+            }
+          }, 10000);
+        }
       }
     }
   });

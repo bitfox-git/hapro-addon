@@ -12,7 +12,7 @@ async function getUpdates() {
   "version_current": "{{ entity.attributes.installed_version }}",
   "version_latest": "{{ entity.attributes.latest_version }}",
   "name": "{{ entity.attributes.friendly_name | replace(' Update', '') }}",
-  "slug": "{{ entity.entity_id | replace('update.', '') }}",
+  "identifier": "{{ entity.entity_id | replace('update.', '') }}",
   "icon": "{{ entity.attributes.entity_picture }}",
   "update_running": {{ entity.attributes.in_progress | lower }},
   "skipped": {{ entity.attributes.skipped_version is not none | lower }}
@@ -35,10 +35,10 @@ async function getUpdates() {
   }
 }
 
-async function getIconOfUpdate(addonSlug) {
+async function getIconOfUpdate(updateIdentifier) {
   try {
     const template = `
-  {% set entity = states.update | selectattr('entity_id', 'search', 'update.${addonSlug}', ignorecase=True) | first %}
+  {% set entity = states.update | selectattr('entity_id', 'search', 'update.${updateIdentifier}', ignorecase=True) | first %}
   {{ entity.attributes.entity_picture }}
   `;
     const response = await helpers.doHaInternalApiRequest(`/template`, "POST", {
@@ -76,7 +76,7 @@ async function getIconOfUpdate(addonSlug) {
   }
 }
 
-async function performUpdate(addonSlug) {
+async function performUpdate(updateIdentifier) {
   const idleTimeout = 3000;
 
   async function withTimeout(promise, timeout) {
@@ -90,7 +90,7 @@ async function performUpdate(addonSlug) {
   try {
     const updateResult = await withTimeout(
       helpers.doHaInternalApiRequest(`/services/update/install`, "POST", {
-        entity_id: `update.${addonSlug}`,
+        entity_id: `update.${updateIdentifier}`,
       }),
       idleTimeout
     );
@@ -113,12 +113,12 @@ async function performUpdate(addonSlug) {
   }
 }
 
-async function skipUpdate(addonSlug) {
+async function skipUpdate(updateIdentifier) {
   try {
     const updateResult = await helpers.doHaInternalApiRequest(
       `/services/update/skip`,
       "POST",
-      { entity_id: `update.${addonSlug}` }
+      { entity_id: `update.${updateIdentifier}` }
     );
     if (updateResult.includes("400 Bad Request") || updateResult.length === 0)
       return new Response(
@@ -135,12 +135,12 @@ async function skipUpdate(addonSlug) {
   }
 }
 
-async function clearSkippedUpdate(addonSlug) {
+async function clearSkippedUpdate(updateIdentifier) {
   try {
     const updateResult = await helpers.doHaInternalApiRequest(
       `/services/update/clear_skipped`,
       "POST",
-      { entity_id: `update.${addonSlug}` }
+      { entity_id: `update.${updateIdentifier}` }
     );
     console.log(updateResult);
     if (updateResult.includes("400 Bad Request") || updateResult.length === 0)
