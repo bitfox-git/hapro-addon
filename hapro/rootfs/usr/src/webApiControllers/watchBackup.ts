@@ -33,7 +33,7 @@ async function notifyBackupComplete() {
   try {
     const uuidEntry = await Bun.file("/homeassistant/.storage/core.uuid").text();
     const uuid = JSON.parse(uuidEntry).data.uuid;
-    await fetch(`https://api.test.hapro.cloud/api/backup/${uuid}/synchronize`, {
+    await fetch(`https://api.hapro.cloud/api/backup/${uuid}/synchronize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
