@@ -1,1 +1,1 @@
-HaproApi=https://api.hapro.cloud
+HaproApi=https://api.test.hapro.cloud

@@ -142,7 +142,6 @@ async function clearSkippedUpdate(updateIdentifier) {
       "POST",
       { entity_id: `update.${updateIdentifier}` }
     );
-    console.log(updateResult);
     if (updateResult.includes("400 Bad Request") || updateResult.length === 0)
       return new Response(
         JSON.stringify({ StatusCode: 400, Message: "Bad Request" })

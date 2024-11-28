@@ -1,5 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha11.2 - 28/11/2024
+
+### Changed
+- The logs are improved and now use bashio for logging
+- The rathole image is now maintained by bitfox-git to ensure the latest rathole version is always used
+
 ## v1.0-alpha11 - 26/11/2024
 
 ### Added

@@ -7,12 +7,17 @@ import * as statisticController from "./webApiControllers/statisticController";
 
 const PORT = 3000;
 
+['log', 'info', 'warn', 'error', 'debug'].forEach((level) => {
+  const original = console[level].bind(console);
+  console[level] = (...args) => original(`[${level.toUpperCase()}]`, ...args);
+});
+
 serve({
   port: PORT,
   async fetch(req: Request) {
     const url = new URL(req.url);
     const path = url.pathname;
-    console.log(`Request: ${req.method} ${path}`);
+    console.debug(`Request: ${req.method} ${path}`);
     switch (true) {
       case path == "/":
         return await ping();
@@ -201,6 +206,6 @@ async function getInfo() {
   }
 }
 
-console.log(`Listening on http://localhost:${PORT} ...`);
+console.debug(`Listening on http://localhost:${PORT} ...`);
 
 watchBackupDirectory();

@@ -1,6 +1,5 @@
 ARG BUILD_FROM
-# TODO move this to a bitfox managed registry
-FROM ghcr.io/dvdplaat/rathole:latest as rathole
+FROM ghcr.io/bitfox-git/rathole:latest as rathole
 FROM caddy:latest as caddy
 FROM oven/bun:latest as bun
 FROM $BUILD_FROM

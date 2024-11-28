@@ -8,5 +8,12 @@ sed -i "s/{{.PORT}}/80/g" /usr/bin/client.toml
 sed -i "s/{{.HOST}}/$haIp/g" /usr/bin/client.toml
 
 bashio::log.info "RATHOLE: Starting rathole"
-cat /usr/bin/client.toml
-exec /usr/bin/rathole -c /usr/bin/client.toml
+exec /usr/bin/rathole -c /usr/bin/client.toml  2>&1 | while read -r line; do
+    case "$line" in
+        *" DEBUG "*) bashio::log.notice "RATHOLE: ${line#* DEBUG }" ;;
+        *" INFO "*) bashio::log.info "RATHOLE: ${line#* INFO }" ;;
+        *" WARN "*) bashio::log.warning "RATHOLE: ${line#* WARN }" ;;
+        *" ERROR "*) bashio::log.error "RATHOLE: ${line#* ERROR }" ;;
+        *) bashio::log.notice "RATHOLE: $line" ;;
+    esac
+done

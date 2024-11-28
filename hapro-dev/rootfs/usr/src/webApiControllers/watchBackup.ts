@@ -16,7 +16,6 @@ async function getFiles(dir: string): Promise<string[]> {
 async function getBackupList(): Promise<any[]> {
   try {
     const response = await doSupervisorRequest("/backups");
-    console.log(response.data.backups.length);
     return response.data.backups || [];
   } catch (error) {
     console.error(`Error reading backup list: ${error}`);
@@ -34,15 +33,13 @@ async function notifyBackupComplete() {
   try {
     const uuidEntry = await Bun.file("/homeassistant/.storage/core.uuid").text();
     const uuid = JSON.parse(uuidEntry).data.uuid;
-    console.log("UUID:", uuid);
-
     await fetch(`https://api.test.hapro.cloud/api/backup/${uuid}/synchronize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       }
     });
-    console.log("Backup completion notification sent.");
+    console.debug("Backup completion notification sent.");
   } catch (error) {
     console.error("Failed to send notification:", error);
   }
@@ -51,7 +48,7 @@ async function notifyBackupComplete() {
 let lastFileCount: number | null = null;
 let previousFiles: Set<string> = new Set();
 export async function watchBackupDirectory() {
-  console.log(`Watching directory: ${BACKUP_DIR}`);
+  console.debug(`Watching directory: ${BACKUP_DIR}`);
   const files = await getFiles(BACKUP_DIR);
   lastFileCount = files.length;
   previousFiles = new Set(files);
@@ -60,12 +57,12 @@ export async function watchBackupDirectory() {
     const files = await getFiles(BACKUP_DIR);
     const currentFileCount = files.length;
     if (currentFileCount !== lastFileCount) {
-      console.log(`File count changed from ${lastFileCount} to ${currentFileCount}`);
+      console.debug(`File count changed from ${lastFileCount} to ${currentFileCount}`);
       lastFileCount = currentFileCount;
       const newFiles = files.filter(file => !previousFiles.has(file));
       const newFile = newFiles[0];
       if (newFile) {
-        console.log(`New file detected: ${newFile}`);
+        console.debug(`New file detected: ${newFile}`);
         if(newFile.endsWith(".tar")) {
           const retryInterval = setInterval(async () => {
             const isBackupComplete = await checkBackupCompletion(newFile);
@@ -73,7 +70,7 @@ export async function watchBackupDirectory() {
               await notifyBackupComplete();
               clearInterval(retryInterval);
             } else {
-              console.log(`Backup for ${newFile} is not yet listed, retrying...`);
+              console.debug(`Backup for ${newFile} is not yet listed, retrying...`);
             }
           }, 10000);
         }

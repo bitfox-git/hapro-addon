@@ -55,7 +55,6 @@ async function downloadBackup(backupId) {
         },
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.error(error);
@@ -84,7 +83,7 @@ async function uploadBackup(req) {
       throw new Error(`Failed to upload backup: ${response.statusText}`);
     }
 
-    console.log("Backup uploaded successfully");
+    console.debug("Backup uploaded successfully");
     return new Response(JSON.stringify({ StatusCode: 200, Message: "Backup uploaded successfully" }), {
       status: 200,
     });
@@ -120,14 +119,12 @@ async function restoreBackup(backupId, backupPassword = null) {
       return new Response(JSON.stringify({ StatusCode: 404, Message: "Backup not found" }));
     if(backup.protected && backupPassword === null)
       return new Response(JSON.stringify({ StatusCode: 401, Message: "Backup is password protected" }));
-    console.log(backup);
     if(backup.type === "full") {
       const response = await helpers.doSupervisorRequest(
         `/backups/${backupId}/restore/full`,
         "POST",
         { background: true }
       );
-      console.log(response);
       return new Response(JSON.stringify({ StatusCode: 200, Message: "Restore started", Data: response.data.job_id }));
     } else {
       const response = await helpers.doSupervisorRequest(
@@ -135,7 +132,6 @@ async function restoreBackup(backupId, backupPassword = null) {
         "POST",
         { background: true, homeassistant: backup.content.homeassistant, addons: backup.content.addons, folders: backup.content.folders }
       );
-      console.log(response);
       return new Response(JSON.stringify({ StatusCode: 200, Message: "Restore started", Data: response.data.job_id }));
     }
   } catch (error) {

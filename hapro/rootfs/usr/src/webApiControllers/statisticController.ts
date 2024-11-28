@@ -58,7 +58,7 @@ async function enableSystemMonitor() {
     (entry) => entry.domain === "systemmonitor"
   );
   if (systemMonitorEntry && systemMonitorEntry.disabled_by === null) {
-    console.log("System Monitor is already enabled");
+    console.debug("System Monitor is already enabled");
     return new Response(
       JSON.stringify({
         StatusCode: 400,
@@ -72,7 +72,7 @@ async function enableSystemMonitor() {
       "/homeassistant/.storage/core.config_entries",
       JSON.stringify(configEntriesContent, null, 2)
     );
-    console.log("System Monitor is now enabled");
+    console.info("System Monitor is now enabled");
     setTimeout(async () => {
       try {
         await fetch("http://supervisor/core/restart", {
@@ -120,7 +120,7 @@ async function enableSystemMonitor() {
     "/homeassistant/.storage/core.config_entries",
     JSON.stringify(configEntriesContent, null, 2)
   );
-  console.log("System Monitor is now installed");
+  console.info("System Monitor is now installed");
   const configEntries2 = Bun.file(
     "/homeassistant/.storage/core.config_entries"
   );
@@ -130,7 +130,7 @@ async function enableSystemMonitor() {
     (entry) => entry.domain === "systemmonitor"
   );
 
-  console.log("Home Assistant is restarting");
+  console.warn("Home Assistant is restarting");
   setTimeout(async () => {
     try {
       await fetch("http://supervisor/core/restart", {
@@ -156,7 +156,7 @@ async function enableSystemMonitor() {
 async function enableSystemMonitorEntities() {
   const isSMEnabled = await helpers.isSystemMonitorEnabled();
   if (!isSMEnabled) {
-    console.log("System Monitor is disabled, cannot enable entities");
+    console.error("System Monitor is disabled, cannot enable entities");
     return new Response(
       JSON.stringify({
         StatusCode: 400,
@@ -194,9 +194,9 @@ async function enableSystemMonitorEntities() {
     "/homeassistant/.storage/core.entity_registry",
     JSON.stringify(entityEntriesContent, null, 2)
   );
-  console.log("Enabled System Monitor entities");
+  console.info("Enabled System Monitor entities");
 
-  console.log("Home Assistant is restarting");
+  console.warn("Home Assistant is restarting");
   setTimeout(async () => {
     try {
       await fetch("http://supervisor/core/restart", {
