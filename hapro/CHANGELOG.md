@@ -1,5 +1,10 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha11.5 - 16/12/2024
+
+### Changed
+- Improved the route handling in the internal api
+
 ## v1.0-alpha11.2 - 28/11/2024
 
 ### Changed

@@ -1,7 +1,7 @@
 name: "hapro (Development)"
 description: "Development version, don't use except when instructed to do so. Professional manager for multiple HA installations."
 slug: "hapro-dev"
-version: "v1.0-alpha11.2"
+version: "v1.0-alpha11.5"
 image: ghcr.io/bitfox-git/hapro-dev-addon-{arch}
 url: "https://github.com/bitfox-git/hapro-addon/tree/main/hapro-dev"
 init: false
@@ -16,4 +16,6 @@ map:
   - homeassistant_config:rw
   - backup:rw
 options:
-  uuid: str
+  uuid: "Your UUID has not been identified yet, it will be fetched by the addon."
+schema:
+  uuid: str?
