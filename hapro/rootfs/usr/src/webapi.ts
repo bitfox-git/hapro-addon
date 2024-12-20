@@ -16,6 +16,7 @@ const PATHS = {
   DEFAULT: "/",
   INFO: "/info",
   IP: "/ip",
+  USERS: "/users",
   UPDATES: "/updates",
   UPDATES_ICON: "/updates/:updateId/icon",
   UPDATES_SKIP: "/updates/:updateId/skip",
@@ -47,6 +48,8 @@ serve({
           return await infoController.getInfo();
         case matchPath(PATHS.IP, req):
           return await infoController.getIp();
+        case matchPath(PATHS.USERS, req):
+          return await infoController.getUsers();
         case matchPath(PATHS.UPDATES, req):
           return await updateController.getUpdates();
         case matchPath(PATHS.UPDATES_ICON, req):

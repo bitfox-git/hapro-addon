@@ -1,5 +1,13 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha12 - 19/12/2024
+
+### Added
+- The internal api now has endpoints to gather the existing auth accounts on the device
+
+### Changed
+- The auth-header has been updated
+
 ## v1.0-alpha11.5 - 16/12/2024
 
 ### Changed

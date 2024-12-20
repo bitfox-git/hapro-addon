@@ -110,4 +110,27 @@ async function getInfo() {
   }
 }
 
-export { ping, getIp, getInfo };
+async function getUsers() {
+  try {
+    var users: object[] = [];
+    const authList = Bun.file("/homeassistant/.storage/auth");
+    const authContent = JSON.parse(await authList.text());
+    for (const user of authContent.data.users.filter((user) => !user.system_generated)) {
+      console.log(user);
+      users.push({
+        name: user.name,
+        isOwner: user.is_owner,
+        isAdmin: user.group_ids.includes("system-admin"),
+        isActivated: user.is_active,
+      });
+    }
+    return new Response(JSON.stringify({ StatusCode: 200, data: users }));
+  } catch (error) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ StatusCode: 500, Message: "Internal Server Error" })
+    );
+  }
+}
+
+export { ping, getIp, getInfo, getUsers };
