@@ -116,7 +116,6 @@ async function getUsers() {
     const authList = Bun.file("/homeassistant/.storage/auth");
     const authContent = JSON.parse(await authList.text());
     for (const user of authContent.data.users.filter((user) => !user.system_generated)) {
-      console.log(user);
       users.push({
         name: user.name,
         isOwner: user.is_owner,

@@ -4,6 +4,7 @@ import * as backupController from "./webApiControllers/backupController";
 import * as updateController from "./webApiControllers/updateController";
 import * as statisticController from "./webApiControllers/statisticController";
 import * as infoController from "./webApiControllers/infoController";
+import { watchNotifications } from "./webApiControllers/watchInput";
 
 const PORT = 3000;
 
@@ -122,3 +123,4 @@ function extractPathParams(route: string, path: string) {
 console.debug(`Listening on http://localhost:${PORT} ...`);
 
 watchBackupDirectory();
+watchNotifications();

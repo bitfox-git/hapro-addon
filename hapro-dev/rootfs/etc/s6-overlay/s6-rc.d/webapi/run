@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bashio
 bashio::log.info "WEBAPI: Starting Web API"
 
-exec bun run /usr/src/webapi.ts 2>&1 | while read -r line; do
+bun run /usr/src/webapi.ts 2>&1 | while read -r line; do
     case "$line" in
         *"[DEBUG]"*) bashio::log.notice "WEBAPI: ${line#*] }" ;;
         *"[INFO]"*) bashio::log.info "WEBAPI: ${line#*] }" ;;

@@ -91,5 +91,13 @@ elif [ "$res" -ne 200 ]; then
     exit 1
 fi
 
+if [ ! -f "/homeassistant/blueprints/automation/hapro_notification.yaml" ]; then
+    cp /usr/src/config/hapro_notification.yaml /homeassistant/blueprints/automation/hapro_notification.yaml
+    doHaInternalApiRequest "services/automation/reload" "POST"
+elif ! cmp -s /homeassistant/blueprints/automation/hapro_notification.yaml /usr/src/config/hapro_notification.yaml; then
+    cp /usr/src/config/hapro_notification.yaml /homeassistant/blueprints/automation/hapro_notification.yaml
+    doHaInternalApiRequest "services/automation/reload" "POST"
+fi
+
 
 bashio::log.info "SETUP-ADDON: Setup done"

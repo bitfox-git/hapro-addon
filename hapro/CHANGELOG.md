@@ -1,6 +1,15 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0-alpha13 - 07/01/2025
+Notification system
+
+### Added
+- There now is an automation blueprint for ha notifications
+- On the start of the addon, the addon will update the available automations based on the blueprint
+- The internal api now starts a WS connection to the HA WebSocket API to listen for notifications and send them to the hapro server
+
 ## v1.0-alpha12 - 19/12/2024
+HA User management
 
 ### Added
 - The internal api now has endpoints to gather the existing auth accounts on the device
