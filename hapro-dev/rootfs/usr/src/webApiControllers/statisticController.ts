@@ -8,12 +8,7 @@ async function getStatisticHistory(statistic) {
         Message: "System Monitor Integration is disabled",
       })
     );
-  const statistics = {
-    cpuUsage: "sensor.system_monitor_processor_use",
-    cpuTemp: "sensor.system_monitor_processor_temperature",
-    memoryUsage: "sensor.system_monitor_memory_usage",
-    swapUsage: "sensor.system_monitor_disk_usage",
-  };
+  const statistics = await helpers.getSMStatistics();
 
   if (!statistics.hasOwnProperty(statistic))
     return new Response(
@@ -169,16 +164,7 @@ async function enableSystemMonitorEntities() {
   );
   const entityEntriesText = await entityEntries.text();
   const entityEntriesContent = JSON.parse(entityEntriesText);
-  const statistics = {
-    storageUsed: "sensor.system_monitor_disk_use",
-    storageFree: "sensor.system_monitor_disk_free",
-    storageUsage: "sensor.system_monitor_disk_usage",
-    cpuUsage: "sensor.system_monitor_processor_use",
-    cpuTemp: "sensor.system_monitor_processor_temperature",
-    memoryUsed: "sensor.system_monitor_memory_use",
-    memoryFree: "sensor.system_monitor_memory_free",
-    memoryUsage: "sensor.system_monitor_memory_usage",
-  };
+  const statistics = await helpers.getSMStatistics();
   for (const key in statistics) {
     if (statistics[key] !== null) {
       const entity = entityEntriesContent.data.entities.find(

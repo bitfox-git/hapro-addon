@@ -12,24 +12,15 @@ async function getIp() {
 
 async function getInfo() {
   try {
-    const [coreInfo, updateInfo, hostInfo, isSMEnabled] = await Promise.all([
+    const [coreInfo, updateInfo, hostInfo, isSMEnabled, statistics] = await Promise.all([
       helpers.doSupervisorRequest("/core/info"),
       helpers.doHaInternalApiRequest("/template", "POST", {template: `{{states.update | selectattr('state', 'equalto', 'on') | list | count}}`}),
       helpers.doSupervisorRequest("/host/info"),
-      helpers.isSystemMonitorEnabled()
+      helpers.isSystemMonitorEnabled(),
+      helpers.getSMStatistics()
   ]);
 
     const warnings: string[] = [];
-    const statistics = {
-      storageUsed: "sensor.system_monitor_disk_use",
-      storageFree: "sensor.system_monitor_disk_free",
-      storageUsage: "sensor.system_monitor_disk_usage",
-      cpuUsage: "sensor.system_monitor_processor_use",
-      cpuTemp: "sensor.system_monitor_processor_temperature",
-      memoryUsed: "sensor.system_monitor_memory_use",
-      memoryFree: "sensor.system_monitor_memory_free",
-      memoryUsage: "sensor.system_monitor_memory_usage",
-    };
     const alternativeStatistics = {
       storageUsed: hostInfo.data.disk_used,
       storageFree: hostInfo.data.disk_free

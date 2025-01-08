@@ -49,4 +49,40 @@ async function isSystemMonitorEnabled() {
   return response.length > 0;
 }
 
-export { doSupervisorRequest, doHaInternalApiRequest, isSystemMonitorEnabled };
+async function getSMStatistics() {
+  const result = await doHaInternalApiRequest("/template", "POST", {
+    template: `{{ integration_entities('System Monitor') }}`,
+  });
+  const SMStatistics = JSON.parse(result.replace(/'/g, '"'));
+  if (SMStatistics.length <= 0) return SMStatistics;
+  const languageConfig = Bun.file("/homeassistant/.storage/core.config");
+  const languageConfigContent = await languageConfig.json();
+  const language = languageConfigContent.data.language;
+  
+  switch (language) {
+    case "nl":
+      return {
+        storageUsed: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_disk_use")) ?? "sensor.system_monitor_disk_use",
+        storageFree: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_disk_free")) ?? "sensor.system_monitor_disk_free",
+        storageUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_schijfgebruik")) ?? "sensor.system_monitor_disk_usage",
+        cpuUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_processor_use")) ?? "sensor.system_monitor_processor_use",
+        cpuTemp: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_processortemperatuur")) ?? "sensor.system_monitor_processor_temperature",
+        memoryUsed: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_use")) ?? "sensor.system_monitor_memory_use",
+        memoryFree: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_free")) ?? "sensor.system_monitor_memory_free",
+        memoryUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_usage")) ?? "sensor.system_monitor_memory_usage",
+      };  
+    default:
+      return {
+        storageUsed: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_disk_use")),
+        storageFree: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_disk_free")),
+        storageUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_disk_usage")),
+        cpuUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_processor_use")),
+        cpuTemp: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_processor_temperature")),
+        memoryUsed: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_use")),
+        memoryFree: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_free")),
+        memoryUsage: SMStatistics.find(sensor => sensor.includes("sensor.system_monitor_memory_usage")),
+      };
+  }
+}
+
+export { doSupervisorRequest, doHaInternalApiRequest, isSystemMonitorEnabled, getSMStatistics };
