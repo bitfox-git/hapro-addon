@@ -68,6 +68,11 @@ async function enableSystemMonitor() {
       JSON.stringify(configEntriesContent, null, 2)
     );
     console.info("System Monitor is now enabled");
+    await helpers.doHaInternalApiRequest("/events/hapro_notification", "POST", {
+      type: "Info",
+      title: "Restarting",
+      message: "System Monitor is now enabled, Home Assistant is restarting",
+    });
     setTimeout(async () => {
       try {
         await fetch("http://supervisor/core/restart", {
@@ -125,6 +130,11 @@ async function enableSystemMonitor() {
     (entry) => entry.domain === "systemmonitor"
   );
 
+  await helpers.doHaInternalApiRequest("/events/hapro_notification", "POST", {
+    type: "Info",
+    title: "Restarting",
+    message: "System Monitor is now installed, Home Assistant is restarting",
+  });
   console.warn("Home Assistant is restarting");
   setTimeout(async () => {
     try {

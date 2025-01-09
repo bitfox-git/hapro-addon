@@ -1,5 +1,5 @@
 blueprint:
-  name: HaPro Notification Blueprint - v1.0
+  name: HaPro Notification Blueprint - v1.1
   description: Get notified by the hapro system on selected triggers
   domain: automation
   author: Melchior - Bitfox
@@ -40,7 +40,7 @@ blueprint:
           options:
             - Critical
             - Warning
-            - Other
+            - Info
 
 mode: restart
 max_exceeded: silent
