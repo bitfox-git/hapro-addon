@@ -27,6 +27,9 @@ async function watchNotifications() {
   };
   socket.onclose = function (event) {
     console.warn("Stopped listening to Notifications for HaPro.");
+    setTimeout(() => {
+      watchNotifications();
+    }, 30000);
   };
   socket.onerror = function (event) {
     console.error("Error while listening to Notifications for HaPro:", event);
