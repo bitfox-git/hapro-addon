@@ -1,4 +1,5 @@
 import * as helpers from "./apiHelperService";
+import { getCurrentFileVersion } from "./fileController";
 async function ping() {
   const pingResponse = await helpers.doSupervisorRequest("/supervisor/ping");
   return new Response(JSON.stringify(pingResponse));
@@ -12,12 +13,13 @@ async function getIp() {
 
 async function getInfo() {
   try {
-    const [coreInfo, updateInfo, hostInfo, isSMEnabled, statistics] = await Promise.all([
+    const [coreInfo, updateInfo, hostInfo, isSMEnabled, statistics, fileObject] = await Promise.all([
       helpers.doSupervisorRequest("/core/info"),
       helpers.doHaInternalApiRequest("/template", "POST", {template: `{{states.update | selectattr('state', 'equalto', 'on') | list | count}}`}),
       helpers.doSupervisorRequest("/host/info"),
       helpers.isSystemMonitorEnabled(),
-      helpers.getSMStatistics()
+      helpers.getSMStatistics(),
+      getCurrentFileVersion()
   ]);
 
     const warnings: string[] = [];
@@ -65,16 +67,17 @@ async function getInfo() {
           return [key, null];
         }
       });
-    const resolvedStats = await Promise.all(statPromises);
-    resolvedStats.forEach(([key, value]) => {
-      statistics[key] = value;
-    });
-  }
-
+      const resolvedStats = await Promise.all(statPromises);
+      resolvedStats.forEach(([key, value]) => {
+        statistics[key] = value;
+      });
+    }
+    const fileVersion = await fileObject.json();
     const response = {
       machine: coreInfo.data.machine,
       haVersion: coreInfo.data.version,
       updates: updateInfo,
+      fileVersion: fileVersion?.data?.version || 0,
       storage: {
         total: (statistics["storageUsed"] + statistics["storageFree"]),
         used: statistics["storageUsed"],

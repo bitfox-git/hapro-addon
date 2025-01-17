@@ -4,6 +4,7 @@ import * as backupController from "./webApiControllers/backupController";
 import * as updateController from "./webApiControllers/updateController";
 import * as statisticController from "./webApiControllers/statisticController";
 import * as infoController from "./webApiControllers/infoController";
+import * as fileController from "./webApiControllers/fileController";
 import { watchNotifications } from "./webApiControllers/watchInput";
 
 const PORT = 3000;
@@ -33,6 +34,7 @@ const PATHS = {
   BACKUPS_DELETE: "/backups/:backupId/delete",
   BACKUPS_RESTORE: "/backups/:backupId/restore",
   BACKUPS_STATUS: "/backups/:backupId/status",
+  FILE_UPLOAD: "/file/upload",
 };
 
 serve({
@@ -81,6 +83,8 @@ serve({
           return await backupController.restoreBackup(extractPathParams(PATHS.BACKUPS_RESTORE, path)["backupId"]);
         case matchPath(PATHS.BACKUPS_STATUS, req):
           return await backupController.backupStatus(extractPathParams(PATHS.BACKUPS_STATUS, path)["backupId"]);
+        case matchPath(PATHS.FILE_UPLOAD, req, "POST"):
+          return await fileController.updateFile(req);
         default:
           return new Response(
             JSON.stringify({ StatusCode: 404, Message: "Not Found" })

@@ -1,4 +1,5 @@
 import * as helpers from "./apiHelperService";
+import { getCurrentFileVersion } from "./fileController";
 
 async function getUpdates() {
   try {
@@ -23,7 +24,15 @@ async function getUpdates() {
     const response = await helpers.doHaInternalApiRequest(`/template`, "POST", {
       template: template,
     });
+    const fileUpdateStream = await getCurrentFileVersion();
+    const fileUpdate = await fileUpdateStream.json();
     const listOfUpdates = JSON.parse(response);
+    listOfUpdates.push({
+      version_current: fileUpdate?.data?.version || 0,
+      version_latest: null,
+      name: fileUpdate?.data?.partner_name || "unknown",
+      identifier: "hapro-files"
+    });
     return new Response(
       JSON.stringify({ StatusCode: 200, data: listOfUpdates })
     );

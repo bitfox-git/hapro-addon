@@ -1,5 +1,9 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
+## v1.0 17/01/2025
+# File Distribution
+- Added the system for file distribution
+
 ## v1.0-alpha13.2 - 09/01/2025
 ### Fixed
 - Fixed blueprint
